@@ -11,7 +11,7 @@ if __name__ == '__main__':
     preprocessed_path = r'../data/preprocess'
     binary_path = r'../data/test/binary'
     output_path = r'../data/test/annotation'
-    split_path = r'../data/test/split'
+    # split_path = r'../data/test/split'
     os.makedirs(output_path, exist_ok=True)
     os.makedirs(binary_path, exist_ok=True)
     st = splittape()
@@ -20,13 +20,13 @@ if __name__ == '__main__':
         file_path = os.path.join(preprocessed_path, file)
         if file.endswith('.png'):
             fname = file.replace('.png', '')
-            image = io.imread(file_path, as_gray=True)
+            image = io.imread(file_path)
             img = normalize(image, maxValue=255).astype('uint8')
             img, out_img = st.process(img)
 
             plt.figure()
             plt.axis('off')
-            plt.imshow(img, cmap='gray')
+            plt.imshow(img)
             plt.savefig(os.path.join(binary_path, file),
                         bbox_inches='tight',
                         dpi=600,
@@ -35,7 +35,7 @@ if __name__ == '__main__':
 
             plt.figure()
             plt.axis('off')
-            plt.imshow(out_img, cmap='gray')
+            plt.imshow(out_img)
             plt.savefig(os.path.join(output_path, file),
                         bbox_inches='tight',
                         dpi=600,

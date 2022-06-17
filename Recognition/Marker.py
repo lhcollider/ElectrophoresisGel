@@ -53,38 +53,47 @@ class Marker:
         Yd = np.array(Yd) / np.array(Yd).sum()
         return Yd
 
-    def MAE(self, array, list_):
-        mae = 0
+    def TAE(self, array, list_):
+        tae = 0
         for i in range(len(list_)):
-            mae += np.abs(list_[i] - array[i])
-        return mae
+            tae += np.abs(list_[i] - array[i])
+        return tae
 
     def judgebybri(self):
-        if self.By_index == 4:
-            mae1 = self.MAE(self.Yd[:3] * (self.num - 1), [i * 8 for i in Agarose1_param[:3]])
-            mae2 = self.MAE(self.Yd[:3] * (self.num - 1), [i * 8 for i in Agarose2_param[:3]])
-            if mae1 < mae2:
-                Mtype = 'Agarose1'
-            else:
-                Mtype = 'Agarose2'
-        elif self.By_index == 3:
-            Mtype = 'DL10000'
-        else:
-            Mtype = None
-        return Mtype
+        tae1 = self.TAE(self.Yd[:self.By_index] * (self.num - 1), [i * 8 for i in Agarose1_param[int(4 - self.By_index):4]]) + \
+               self.TAE(self.Yd[self.By_index:] * (self.num - 1), [i * 8 for i in Agarose1_param[4:int(self.num - self.By_index + 3)]])
+        tae2 = self.TAE(self.Yd[:self.By_index] * (self.num - 1), [i * 8 for i in Agarose2_param[int(4 - self.By_index):4]]) + \
+               self.TAE(self.Yd[self.By_index:] * (self.num - 1), [i * 8 for i in Agarose2_param[4:int(self.num - self.By_index + 3)]])
+        tae3 = self.TAE(self.Yd[:self.By_index] * (self.num - 1), [i * 6 for i in DL10000_param[int(3 - self.By_index):3]]) + \
+               self.TAE(self.Yd[self.By_index:] * (self.num - 1), [i * 6 for i in DL10000_param[3:int(self.num - self.By_index + 2)]])
+        M = ['Agarose1', 'Agarose2', 'DL10000']
+        m_ind = np.argmin(np.array([tae1, tae2, tae3]))
+
+        # if self.By_index == 4:
+        #     tae1 = self.TAE(self.Yd[:4] * (self.num - 1), [i * 8 for i in Agarose1_param[:4]])
+        #     tae2 = self.TAE(self.Yd[:4] * (self.num - 1), [i * 8 for i in Agarose2_param[:4]])
+        #     if tae1 < tae2:
+        #         Mtype = 'Agarose1'
+        #     else:
+        #         Mtype = 'Agarose2'
+        # elif self.By_index == 3:
+        #     Mtype = 'DL10000'
+        # else:
+        #     Mtype = None
+        return M[m_ind]
 
     def judge(self):
         if self.num == 9:
-            if self.MAE(self.Yd, Agarose1_param) <= 0.1:
+            if self.TAE(self.Yd, Agarose1_param) <= 0.1:
                 Mtype = 'Agarose1'
                 self.iscomplete = True
-            elif self.MAE(self.Yd, Agarose2_param) <= 0.1:
+            elif self.TAE(self.Yd, Agarose2_param) <= 0.1:
                 Mtype = 'Agarose2'
                 self.iscomplete = True
             else:
                 Mtype = self.judgebybri()
         elif self.num == 7:
-            if self.MAE(self.Yd, DL10000_param) <= 0.1:
+            if self.TAE(self.Yd, DL10000_param) <= 0.1:
                 Mtype = 'DL10000'
                 self.iscomplete = True
             else:

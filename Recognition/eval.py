@@ -5,7 +5,7 @@ from dataloder import getAnnotation
 from utils.utils import normalize, show_bar
 from matplotlib import pyplot as plt
 
-preddir = r'D:\python\ElectrophoresisGel\data\test\binary'
+preddir = r'D:\python\ElectrophoresisGel\data\debug\binary'
 gtdir = r'D:\python\ElectrophoresisGel\data\annotation'
 
 
@@ -87,11 +87,12 @@ if __name__ == '__main__':
         if len(bbox_ps) != 0:
             for bbox_p in bbox_ps:
                 iouMax = 0
-                for bbox_t in anno['objects']:
-                    iou = calculateIOU(bbox_p, anno['objects'][bbox_t])
+                for object_ in anno['objects']:
+                    bp = anno['objects'][object_]['bp']
+                    iou = calculateIOU(bbox_p, anno['objects'][object_]['bbox'])
                     if iou > iouMax:
                         iouMax = iou
-                if iouMax > 0.5:
+                if iouMax > 0.3:
                     alone['TP'] += 1
                 else:
                     alone['FP'] += 1
