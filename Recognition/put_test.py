@@ -2,6 +2,7 @@ import os
 import sys
 import json
 import cv2
+import time
 import numpy as np
 from PIL import Image, ImageDraw, ImageFont
 from matplotlib import pyplot as plt
@@ -32,7 +33,7 @@ if __name__ == '__main__':
     # image = cv2.imread(image_path, 1)
     image = cv2.imdecode(np.fromfile(image_path, dtype=np.uint8), 1)
     image = cv2.cvtColor(image, cv2.COLOR_RGB2BGR)
-    output_path = image_path.replace('.png', '_anno.png')
+    output_path = os.path.join(os.path.dirname(image_path), str(time.time()).replace('.', '')) + '.png'
 
     js = json.loads(data)
 
