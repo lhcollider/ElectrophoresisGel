@@ -272,7 +272,8 @@ class splittape():
                                     thresholdType=cv2.THRESH_BINARY,
                                     blockSize=self.blockSize,
                                     C=0)
-        return self._FilterSmallAreas(img)
+        # return self._FilterSmallAreas(img)
+        return img
 
     def ErodeandFilter(self, image):
         kernel = cv2.getStructuringElement(cv2.MORPH_RECT, (7, 1))
@@ -333,7 +334,7 @@ class splittape():
         image = cv2.merge([labels.astype(np.uint8)])
         return image
 
-    def _BandpassFilter(self, image, threshold1=100, threshold2=3000):
+    def _BandpassFilter(self, image, threshold1=200, threshold2=3000):
         _, labels, stats, _ = cv2.connectedComponentsWithStats(image, connectivity=self.connectivity)
         stats = stats[stats[:, 2] < (self.W / 2)]
         stats = stats[stats[:, 3] < (self.H / 2)]
