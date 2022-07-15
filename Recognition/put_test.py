@@ -23,12 +23,12 @@ def cv2ImgAddText(img, text, left, top, textColor=(255, 0, 0), textSize=30):
 
 
 if __name__ == '__main__':
-    input_ = sys.argv[1]
-    image_path = input_.split('~~~')[0]
-    data = input_.split('~~~')[1]
+    # input_ = sys.argv[1]
+    # image_path = input_.split('~~~')[0]
+    # data = input_.split('~~~')[1]
 
-    # image_path = r'D:\python\ElectrophoresisGel\data\a5a491c0b9c1722b0b4c067b8a9600ad__1657262918.9838579.png'
-    # data = '[{"x": 69, "y": 100, "data": "S1"}, {"x": 191, "y": 100, "data": "S2"}, {"x": 313, "y": 100, "data": "S3"}, {"x": 435, "y": 100, "data": "S4"}, {"x": 557, "y": 100, "data": "S5"}, {"x": 679, "y": 100, "data": "S6"}, {"x": 801, "y": 100, "data": "S7"}, {"x": 923, "y": 100, "data": "S8"}, {"x": 1045, "y": 100, "data": "S9"}, {"x": 1167, "y": 100, "data": "S10"}, {"x": 1289, "y": 100, "data": "S11"}, {"x": 1411, "y": 100, "data": "M"}, {"x": 1533, "y": 100, "data": "S12"}, {"x": 1400, "y": 452, "data": "5000"}, {"x": 1400, "y": 489, "data": "3000"}, {"x": 1400, "y": 520, "data": "2000"}, {"x": 1400, "y": 543, "data": "1500"}, {"x": 1400, "y": 576, "data": "1000"}, {"x": 1400, "y": 596, "data": "750"}, {"x": 1400, "y": 622, "data": "500"}, {"x": 1400, "y": 655, "data": "250"}, {"x": 1400, "y": 675, "data": "100"}]'
+    image_path = r'D:\python\ElectrophoresisGel\data\test\test.png'
+    data = '[{"x":174,"y":130,"data":"123"}]'
 
     # image = cv2.imread(image_path, 1)
     image = cv2.imdecode(np.fromfile(image_path, dtype=np.uint8), 1)
@@ -40,9 +40,9 @@ if __name__ == '__main__':
     for point in js:
         cv2.putText(image,
                     text=point['data'],
-                    org=(point['x'], point['y']),
+                    org=(point['x'], int(point['y'] + 23)),
                     fontFace=cv2.FONT_HERSHEY_COMPLEX,
-                    fontScale=0.7,
+                    fontScale=0.6,
                     color=(0, 0, 255)
                     )
         # image = cv2ImgAddText(image, point.get('data'), point.get('x'), point.get('y'))
