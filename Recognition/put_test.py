@@ -23,12 +23,12 @@ def cv2ImgAddText(img, text, left, top, textColor=(255, 0, 0), textSize=30):
 
 
 if __name__ == '__main__':
-    # input_ = sys.argv[1]
-    # image_path = input_.split('~~~')[0]
-    # data = input_.split('~~~')[1]
+    input_ = sys.argv[1]
+    image_path = input_.split('~~~')[0]
+    data = input_.split('~~~')[1]
 
-    image_path = r'D:\python\ElectrophoresisGel\data\test\test.png'
-    data = '[{"x":174,"y":130,"data":"123"}]'
+    # image_path = r'D:\python\ElectrophoresisGel\data\test\test.png'
+    # data = '[{"x":174,"y":130,"data":"123"}]'
 
     # image = cv2.imread(image_path, 1)
     image = cv2.imdecode(np.fromfile(image_path, dtype=np.uint8), 1)
